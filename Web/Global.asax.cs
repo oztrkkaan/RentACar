@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BusinessLogic.DependencyResolvers.Ninject;
+using Core.Utilities.Mvc.Infrastructure;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +19,7 @@ namespace Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(new NinjectBusinessModule()));
         }
     }
 }

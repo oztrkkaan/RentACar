@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{10E29860-7C47-4C04-B5DD-766AE8C24D64}</ProjectGuid>
+    <ProjectGuid>{C3DDD288-7688-4C6B-9561-C8993BC4C0F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Entity</RootNamespace>
-    <AssemblyName>Entity</AssemblyName>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,28 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\Booking.cs" />
-    <Compile Include="Concrete\Car.cs" />
-    <Compile Include="Concrete\Customer.cs" />
-    <Compile Include="Concrete\CustomerAddress.cs" />
-    <Compile Include="Concrete\CustomerPhone.cs" />
-    <Compile Include="Concrete\User.cs" />
-    <Compile Include="Dtos\UserDto.cs" />
-    <Compile Include="Dtos\Web\Auth\LoginUserDto.cs" />
-    <Compile Include="Dtos\Web\Auth\RegisterUserDto.cs" />
+    <Compile Include="Abstract\IDatabaseContext.cs" />
+    <Compile Include="Abstract\IUserDal.cs" />
+    <Compile Include="Concrete\AdoNet\AdoUserDal.cs" />
+    <Compile Include="Concrete\AdoNet\Contexts\DatabaseContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
-    <Compile Include="ViewModels\Web\Auth\LoginViewModel.cs" />
-    <Compile Include="ViewModels\Web\Auth\RegisterViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{b0ad6f9e-d859-4526-8a30-e7233759d9fb}</Project>
+      <Project>{B0AD6F9E-D859-4526-8A30-E7233759D9FB}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{10E29860-7C47-4C04-B5DD-766AE8C24D64}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
