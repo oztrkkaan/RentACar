@@ -1,4 +1,5 @@
 ﻿using DataAccess.Abstract;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -11,16 +12,13 @@ namespace DataAccess.Concrete.AdoNet.Contexts
 
         public DatabaseContext()
         {
-            _connectionString = @"Server=(localdb)\mssqllocaldb; Database=RentACarDb; Trusted_Connection=true"; //ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _connection = new SqlConnection(_connectionString);
         }
         public SqlConnection Connection
         {
             get
             {
-                if (_connection == null)
-                {
-                    _connection = new SqlConnection(_connectionString);
-                }
                 if (_connection.State != ConnectionState.Open)
                 {
                     _connection.Open();

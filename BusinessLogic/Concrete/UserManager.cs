@@ -16,36 +16,6 @@ namespace BusinessLogic.Concrete
 {
     public class UserManager : IUserService
     {
-        private readonly IUserDal _userDal;
-
-        public UserManager(IUserDal userDal)
-        {
-            _userDal = userDal;
-        }
-
-        public IDataResult<User> Register(RegisterUserDto registerUserDto)
-        {
-            var validator = new UserValidator();
-            var validateResult = validator.Validate(registerUserDto);
-
-            if (!validateResult.IsValid)
-            {
-                var validationErros = ValidationHelper.GetErrors(validateResult.Errors);
-                return new ErrorDataResult<User>("Kullanıcı oluşturma işlemi başarısız oldu.", validationErros);
-            }
-
-            byte[] passwordHash, passwordSalt;
-            HashingHelper.CreatePasswordHash(registerUserDto.Password, out passwordHash, out passwordSalt);
-            var user = new User()
-            {
-                Email = registerUserDto.Email,
-                FullName = registerUserDto.FullName,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                Roles = "Owner"
-            };
-
-            return _userDal.Add(user);
-        }
+      
     }
 }

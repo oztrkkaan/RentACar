@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using  BusinessLogic.Extensions.ClaimExtensions
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,14 +16,20 @@
                     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                         <span class="fs-4">Rent A Car</span>
                     </a>
-
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a href="#" class="nav-link active">Giriş Yap</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-                    </ul>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a href="@Url.Action("Login","Auth")" class="nav-link">Giriş Yap</a></li>
+                            <li class="nav-item"><a href="@Url.Action("Register","Auth")" class="nav-link active">Kayıt Ol</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a href="#" class="nav-link">@User.Identity.UserFullName()</a></li>
+                            <li class="nav-item"><a href="@Url.Action("Index","Panel")" class="nav-link active">Panele Git</a></li>
+                        </ul>
+                    }
                 </header>
             </div>
         </div>

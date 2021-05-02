@@ -31,7 +31,5 @@ namespace Core.Utilities.Results
         public bool Success { get; }
         public string Message { get; }
         public IList<ValidationError> ValidationErrors { get; }
-
-        IList<ValidationError> IResult.ValidationErrors => throw new System.NotImplementedException();
     }
 }

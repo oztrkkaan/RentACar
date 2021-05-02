@@ -20,7 +20,9 @@ namespace BusinessLogic.ValidationRules.FluentValidation
             RuleFor(m => m.Email).EmailAddress().WithMessage("Geçerli bir e-posta adresi girin.");
 
             RuleFor(m => m.Password).MinimumLength(6).WithMessage("Şifre 6 veya daha fazla karakter içermelidir.");
-            RuleFor(m => m).Must(m => m.Password == m.PasswordConfirm).WithMessage("Şifre ve şifre tekrarı alanı aynı olmalı.");
+            RuleFor(m => m.Password).NotEmpty().WithMessage("Şifre alanı boş geçilemez.");
+
+            RuleFor(m => m.PasswordConfirm).Equal(m => m.Password).WithMessage("Şifre ve şifre tekrarı alanı aynı olmalı.");
         }
     }
 }

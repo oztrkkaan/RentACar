@@ -12,18 +12,28 @@ namespace Web.Controllers
 {
     public class AuthController : Controller
     {
-        IUserService _userService;
+        IAuthService _authService;
 
-        public AuthController(IUserService userService)
+        public AuthController(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
 
         public ActionResult Login()
         {
             return View();
         }
-
+        [HttpPost]
+        public ActionResult Login(LoginViewModel model)
+        {
+            var loginResult = _authService.Login(model.LoginUserDto, HttpContext);
+            if (!loginResult.Success)
+            {
+                ModelState.AddModelError("LoginMessage", loginResult.Message);
+                return View(model);
+            }
+            return RedirectToAction("Index","Panel");
+        }
         public ActionResult Register()
         {
             return View();
@@ -31,12 +41,15 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
-            var registerResult = _userService.Register(model.RegisterUserDto);
+            var registerResult = _authService.Register(model.RegisterUserDto);
             if (!registerResult.Success)
             {
                 ModelState.ValidateModel(registerResult.ValidationErrors, typeof(RegisterUserDto));
                 return View(model);
             }
+
+            _authService.Login(new LoginUserDto() { Email = model.RegisterUserDto.Email, Password = model.RegisterUserDto.Password }, HttpContext);
+
             return View(model);
         }
     }

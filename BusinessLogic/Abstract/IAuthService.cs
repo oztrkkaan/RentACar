@@ -6,10 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace BusinessLogic.Abstract
 {
-    public interface IUserService
+    public interface IAuthService
     {
+        IDataResult<User> Register(RegisterUserDto registerUserDto);
+
+        IResult Login(LoginUserDto loginUserDto, HttpContextBase httpContextBase);
+
     }
 }
