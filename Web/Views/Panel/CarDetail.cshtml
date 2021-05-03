@@ -1,0 +1,109 @@
+﻿@using Entity.ViewModels.Web.Panel
+@using Entity.Constants
+@model CarDetailViewModel
+@{
+    ViewBag.Title = "CarDetail";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Araç Bilgileri</h2>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Marka:</label>
+                                    @Model.CarDto.Brand
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Model:</label>
+                                    @Model.CarDto.Model
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Model:</label>
+                                    @Model.CarDto.Model
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Model Yılı:</label>
+                                    @Model.CarDto.ModelYear
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Araç Plakası:</label>
+                                    @Model.CarDto.CarPlate
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Şasi No:</label>
+                                    @Model.CarDto.VIN
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Araç Plakası:</label>
+                                    @Model.CarDto.Color
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Günlük Kiralama Bedeli:</label>
+                                    @Model.CarDto.DailyRentCost @CurrencyEnum.GetCurrencyByType(Model.CarDto.Currency).Text
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="fw-bold form-label">Araç Tipi:</label>
+                                    @CarEnum.GetByType(Model.CarDto.Type).Text
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h3>Rezervasyon Geçmişi</h3>
+                    <hr />
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@@twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

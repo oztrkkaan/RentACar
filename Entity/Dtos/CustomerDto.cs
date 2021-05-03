@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Concrete
+namespace Entity.Dtos
 {
-    public class Customer : IEntity
+    public class CustomerDto : IDto
     {
         public int Id { get; set; }
         public string FullName { get; set; }
         public string CompanyTitle { get; set; }
-        public short Gender { get; set; }
+        public bool Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public long CitizenshipNumber { get; set; }
         public long TaxNumber { get; set; }

@@ -18,8 +18,13 @@ namespace BusinessLogic.DependencyResolvers.Ninject
         public override void Load()
         {
             Bind<IUserDal>().To<AdoUserDal>().InTransientScope();
+            Bind<ICarDal>().To<AdoCarDal>().InTransientScope();
+            Bind<ICustomerDal>().To<AdoCustomerDal>().InTransientScope();
+
+            Bind<ICustomerService>().To<CustomerManager>().InTransientScope();
             Bind<IUserService>().To<UserManager>().InTransientScope();
             Bind<IAuthService>().To<AuthManager>().InTransientScope();
+            Bind<ICarService>().To<CarManager>().InTransientScope();
 
             Bind<IDatabaseContext>().To<DatabaseContext>().InTransientScope();
         }

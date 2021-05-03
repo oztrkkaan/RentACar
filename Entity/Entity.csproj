@@ -47,17 +47,28 @@
     <Compile Include="Concrete\CustomerAddress.cs" />
     <Compile Include="Concrete\CustomerPhone.cs" />
     <Compile Include="Concrete\User.cs" />
+    <Compile Include="Constants\CarEnum.cs" />
+    <Compile Include="Constants\CurrencyEnum.cs" />
+    <Compile Include="Constants\CustomerEnum.cs" />
+    <Compile Include="Constants\ListItem.cs" />
+    <Compile Include="Dtos\CarDto.cs" />
+    <Compile Include="Dtos\CustomerAddressDto.cs" />
+    <Compile Include="Dtos\CustomerDto.cs" />
+    <Compile Include="Dtos\CustomerPhoneDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Dtos\Web\Auth\LoginUserDto.cs" />
     <Compile Include="Dtos\Web\Auth\RegisterUserDto.cs" />
+    <Compile Include="Dtos\Web\Panel\CreateCustomerDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\Web\Auth\LoginViewModel.cs" />
     <Compile Include="ViewModels\Web\Auth\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\Web\Panel\AddCustomerViewModel.cs" />
+    <Compile Include="ViewModels\Web\Panel\CarDetailViewModel.cs" />
+    <Compile Include="ViewModels\Web\Panel\CarListViewModel.cs" />
+    <Compile Include="ViewModels\Web\Panel\NewCarViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Constants\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{b0ad6f9e-d859-4526-8a30-e7233759d9fb}</Project>

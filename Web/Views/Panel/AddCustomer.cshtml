@@ -1,0 +1,99 @@
+﻿@using Entity.ViewModels.Web.Panel
+@using Entity.Constants
+@model AddCustomerViewModel
+@{
+    ViewBag.Title = "AddCustomer";
+}
+
+<div class="container">
+    @using (Html.BeginForm("AddCustomer", "Panel", FormMethod.Post))
+    {
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+            <h2>Yeni Müşteri Ekle</h2>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-6 offset-md-3">
+                <h4 class="mb-3">Araç Bilgileri</h4>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Müşterinin Adı Soyadı</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.FullName, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.FullName, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>T.C. Kimlik Numarası</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.CitizenshipNumber, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.CitizenshipNumber, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Şehir</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.CityName, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.CityName, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>İlçe</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.DistrictName, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.DistrictName, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label>Tam Adres</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.FullAddress, null, new { @class = "text-danger" })
+                            @Html.TextAreaFor(m => m.CreateCustomerDto.FullAddress, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Cinsiyet</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.Gender, null, new { @class = "text-danger" })
+
+                            @Html.DropDownListFor(m =>
+                              m.CreateCustomerDto.Gender,
+                              CustomerEnum.GenderList.Select(m => new SelectListItem { Text = m.Text, Value = m.Value }),
+                              "--Cinsiyet Seçin--",
+                              new { @class = "btn btn-light border col-12 dropdown-toggle" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Doğum Tarihi</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.BirthDate, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.BirthDate, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Sabit Telefon</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.LandPhone, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.LandPhone, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Cep Telefonu</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.MobilePhone, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.MobilePhone, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>İş Telefonu</label>
+                            @Html.ValidationMessageFor(m => m.CreateCustomerDto.OfficePhone, null, new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.CreateCustomerDto.OfficePhone, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Müşteriyi Kaydet!</button>
+            </div>
+        </div>
+    }
+</div>
+@section headers{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+}
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#CreateCustomerDto_BirthDate").datepicker({dateFormat:'dd.mm.yy'});
+        });
+    </script>
+}

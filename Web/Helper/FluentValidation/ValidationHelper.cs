@@ -11,6 +11,7 @@ namespace Web.Helper.FluentValidation
     {
         public static void ValidateModel(this ModelStateDictionary modelState, IList<ValidationError> validationErrors, Type type = null)
         {
+            modelState.Clear();
             foreach (var error in validationErrors)
                 modelState.AddModelError(type == null ? error.TypeName : type.Name + "." + error.PropertyName, error.ErrorMessage);
         }

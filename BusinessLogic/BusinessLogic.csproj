@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Extras.DynamicProxy, Version=5.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Extras.DynamicProxy.5.0.0\lib\net461\Autofac.Extras.DynamicProxy.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
@@ -127,13 +121,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAuthService.cs" />
+    <Compile Include="Abstract\ICarService.cs" />
+    <Compile Include="Abstract\ICustomerService.cs" />
     <Compile Include="Abstract\IUserService.cs" />
     <Compile Include="Concrete\AuthManager.cs" />
+    <Compile Include="Concrete\CarManager.cs" />
+    <Compile Include="Concrete\CustomerManager.cs" />
     <Compile Include="Concrete\UserManager.cs" />
     <Compile Include="Constants\CustomClaimTypes.cs" />
     <Compile Include="DependencyResolvers\Ninject\NinjectBusinessModule.cs" />
     <Compile Include="Extensions\ClaimExtensions\ClaimExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\AutoMapper\Mapping.cs" />
+    <Compile Include="ValidationRules\FluentValidation\CarValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\CustomerValidator.cs" />
     <Compile Include="ValidationRules\FluentValidation\UserValidator.cs" />
   </ItemGroup>
   <ItemGroup>

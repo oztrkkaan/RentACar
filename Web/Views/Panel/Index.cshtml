@@ -1,7 +1,15 @@
-﻿
+﻿@using BusinessLogic.Extensions.ClaimExtensions
 @{
     ViewBag.Title = "Index";
 }
+<div class="container">
+    <h2><small class="text-muted">Hoşgeldin</small> @User.Identity.UserFullName()</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="@Url.Action("NewCar","Panel")" class="btn btn-success btn-lg">Yeni araç ekle!</a>
+            <a href="@Url.Action("NewBooking","Panel")" class="btn btn-primary btn-lg">Rezervasyon Yap</a>
+        </div>
+    </div>
 
-<h2>Index</h2>
+</div>
 

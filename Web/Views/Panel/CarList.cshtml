@@ -1,0 +1,40 @@
+﻿@using Entity.ViewModels.Web.Panel
+@using Entity.Constants
+@model CarListViewModel
+@{
+    ViewBag.Title = "CarList";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Marka</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Tip</th>
+                        <th scope="col">Model Yılı</th>
+                        <th scope="col">Plaka</th>
+                        <th scope="col">Renk</th>
+                        <th scope="col">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var car in Model.CarDtos)
+                    {
+                        <tr>
+                            <th scope="row">@car.Brand</th>
+                            <td>@car.Model</td>
+                            <td>@CarEnum.GetByType(car.Type).Text</td>
+                            <td>@car.ModelYear</td>
+                            <td>@car.CarPlate</td>
+                            <td>@car.Color</td>
+                            <td><a href="@Url.Action("CarDetail","Panel",new {carId = car.Id })" class="btn btn-sm btn-primary">Detay</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

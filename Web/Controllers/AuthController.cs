@@ -10,6 +10,7 @@ using Web.Helper.FluentValidation;
 
 namespace Web.Controllers
 {
+    [RoutePrefix("kimlik")]
     public class AuthController : Controller
     {
         IAuthService _authService;
@@ -18,11 +19,12 @@ namespace Web.Controllers
         {
             _authService = authService;
         }
-
+        [Route("giris-yap")]
         public ActionResult Login()
         {
             return View();
         }
+        [Route("giris-yap")]
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
@@ -34,10 +36,12 @@ namespace Web.Controllers
             }
             return RedirectToAction("Index","Panel");
         }
+        [Route("kayit-ol")]
         public ActionResult Register()
         {
             return View();
         }
+        [Route("kayit-ol")]
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {

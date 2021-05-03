@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
@@ -184,12 +187,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Panel\Index.cshtml" />
+    <Content Include="Views\Panel\NewCar.cshtml" />
+    <Content Include="Views\Panel\CarList.cshtml" />
+    <Content Include="Views\Panel\CarDetail.cshtml" />
+    <Content Include="Views\Panel\AddCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICarDal.cs" />
+    <Compile Include="Abstract\ICustomerDal.cs" />
     <Compile Include="Abstract\IDatabaseContext.cs" />
     <Compile Include="Abstract\IUserDal.cs" />
+    <Compile Include="Concrete\AdoNet\AdoCarDal.cs" />
+    <Compile Include="Concrete\AdoNet\AdoCustomerDal.cs" />
     <Compile Include="Concrete\AdoNet\AdoUserDal.cs" />
     <Compile Include="Concrete\AdoNet\Contexts\DatabaseContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

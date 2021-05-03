@@ -1,0 +1,84 @@
+﻿@using Entity.ViewModels.Web.Panel
+@using Entity.Constants
+@model NewCarViewModel
+@{
+    ViewBag.Title = "NewCar";
+}
+
+
+<div class="container">
+    @using (Html.BeginForm("NewCar","Panel", FormMethod.Post))
+    { 
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Yeni araç ekle</h2>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 offset-md-3">
+            <h4 class="mb-3">Araç Bilgileri</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Marka</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.Brand, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.Brand, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Model</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.Model, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.Model, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Model Yılı</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.ModelYear, null, new { @class = "text-danger" })
+                        @Html.DropDownListFor(m => m.CarDto.ModelYear, Enumerable.Range(1900, DateTime.Now.Year + 1 - 1900).Select(m => new SelectListItem
+                   {
+                       Text = m.ToString(),
+                       Value = m.ToString()
+                   }).OrderByDescending(m => m.Value), "--Model yılını seçin--", new { @class = "btn btn-light border col-12 dropdown-toggle" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Araç Plakası</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.CarPlate, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.CarPlate, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Renk</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.Color, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.Color, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Tip</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.Type, null, new { @class = "text-danger" })
+
+                        @Html.DropDownListFor(m => m.CarDto.Type, CarEnum.TypeList.Select(m => new SelectListItem { Text = m.Text, Value = m.Value }), "--Araç tipini seçin--", new { @class = "btn btn-light border col-12 dropdown-toggle" })
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label>Şasi Numarası</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.VIN, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.VIN, new { @class = "form-control" })
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+                        <label>Günlük Ücret</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.DailyRentCost, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CarDto.DailyRentCost, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Para Birimi</label>
+                        @Html.ValidationMessageFor(m => m.CarDto.Currency, null, new { @class = "text-danger" })
+                        @Html.DropDownListFor(m => m.CarDto.Currency, CurrencyEnum.CurrencyList.Select(m => new SelectListItem { Text = m.Text, Value = m.Value }), "--Para birimi seçin--", new { @class = "btn btn-light border col-12 dropdown-toggle" })
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Aracı Kaydet!</button>
+        </div>
+    </div>
+    }
+</div>
