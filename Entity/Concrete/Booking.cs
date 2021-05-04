@@ -3,7 +3,7 @@ using System;
 
 namespace Entity.Concrete
 {
-    public class BookingDto : IEntity
+    public class Booking : IEntity
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
@@ -12,6 +12,5 @@ namespace Entity.Concrete
         public short BookingTime { get; set; }
         public DateTime BookingEndDate { get; set; }
         public decimal Amount { get; set; }
-        public string CustomerName { get; set; }
     }
 }

@@ -131,6 +131,10 @@
 @section scripts{
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.all.min.js"></script>
     <script>
+        var carId = $("#carId").val();
+        var currency = $('#currency').text();
+
+
         var GetAllCustomers = function () {
             return $.ajax({
                 url: "/api/get-all-customers",
@@ -140,6 +144,16 @@
 
             });
         };
+
+        var GetBookingListByCarId = function () {
+            return $.ajax({
+                url: "/api/get-booking-list-by-carId/" + carId,
+                contentType: "application/json",
+                dataType: "json",
+                type: "GET"
+            });
+        };
+
         var SaveBooking = function (bookingModel) {
             return $.ajax({
                 url: "/api/save-booking",
@@ -148,7 +162,7 @@
                 type: "post",
                 data: JSON.stringify(bookingModel)
             });
-        }
+        };
         GetAllCustomers().done(function (result) {
             var customerDDL = $("#customerDDL");
             $.each(result.Data, function (i, customer) {
@@ -156,11 +170,28 @@
             })
         });
 
+        GetBookingListByCarId().done(function (result) {
+
+            $.each(result.Data, function (i, customer) {
+                console.log(customer);
+                $("#bookingTable tbody").append(
+                    "<tr>" +
+                    "<td>" + moment(customer.BookingDate).format("DD.MM.yyyy") + "</td>" +
+                    "<td>" + moment(customer.BookingEndDate).format("DD.MM.yyyy") + "</td>" +
+                    "<td>" + customer.Amount + " " + currency + "</td>" +
+                    "<td>" + customer.CustomerName + "</td>" +
+                    "</tr>"
+
+                )
+            })
+        })
+
+
+
         $('#bookingStartDate, #bookingEndDate').on('change', function () {
 
             var bookingStartDate = $("#bookingStartDate").val();
             var bookingEndDate = $("#bookingEndDate").val();
-            var currency = $('#currency').text();
 
             if (bookingStartDate != "" && bookingEndDate != "" ) {
 
@@ -180,7 +211,6 @@
             var bookingStartDate = $("#bookingStartDate").val();
             var bookingEndDate = $("#bookingEndDate").val();
             var customerId = $("#customerDDL").val();
-            var carId = $("#carId").val();
 
             var bookingModel = {
                 CustomerId: customerId,
@@ -204,19 +234,16 @@
                         console.log(result)
                         if (result.Success) {
 
-                            result.Data
 
                             $("#bookingTable tbody").append(
                                 "<tr>" +
                                 "<td>" + moment(result.Data.BookingDate).format("DD.MM.yyyy") + "</td>" +
                                 "<td>" + moment(result.Data.BookingEndDate).format("DD.MM.yyyy") + "</td>" +
-                                "<td>" + result.Data.Amount + "</td>" +
+                                "<td>" + result.Data.Amount +" " + currency + "</td>" +
                                 "<td>" + result.Data.CustomerName + "</td>" +
                                 "</tr>"
 
                             )
-
-
                             Swal.fire(
                                 'Başarılı!',
                                 'Rezervasyon başarıyla kaydedildi.',

@@ -4,6 +4,8 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.AdoNet;
 using DataAccess.Concrete.AdoNet.Contexts;
 using Ninject.Modules;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace BusinessLogic.DependencyResolvers.Ninject
 {

@@ -9,12 +9,12 @@ namespace DataAccess.Concrete.AdoNet
     public class AdoUserDal : IUserDal
     {
         private IDatabaseContext _databaseContext;
-        private SqlConnection _connection;
+
 
         public AdoUserDal(IDatabaseContext databaseContext)
         {
             _databaseContext = databaseContext;
-            _connection = _databaseContext.Connection;
+
         }
         protected void SpInsertUserParameters(User user, SqlCommand cmd)
         {
@@ -35,47 +35,55 @@ namespace DataAccess.Concrete.AdoNet
         }
         public IDataResult<User> Add(User user)
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
             {
-                SpInsertUserParameters(user, cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
-                var addedUser = new User()
+                _connection.Open();
+                using (var cmd = _connection.CreateCommand())
                 {
-                    Id = int.Parse(dataReader["Id"].ToString()),
-                    Email = dataReader["Email"].ToString(),
-                    FullName = dataReader["FullName"].ToString(),
-                    Roles = dataReader["Roles"].ToString()
-                };
 
-                _connection.Dispose();
+                    SpInsertUserParameters(user, cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    dataReader.Read();
+                    var addedUser = new User()
+                    {
+                        Id = int.Parse(dataReader["Id"].ToString()),
+                        Email = dataReader["Email"].ToString(),
+                        FullName = dataReader["FullName"].ToString(),
+                        Roles = dataReader["Roles"].ToString()
+                    };
 
-                return new SuccessDataResult<User>(addedUser);
+
+                    return new SuccessDataResult<User>(addedUser);
+                }
             }
         }
         public IDataResult<User> GetByMail(string email)
         {
-            using (var cmd = _connection.CreateCommand())
-            {
-                SpGetUserByEmail(email, cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-                if (!dataReader.Read())
-                {
-                    _connection.Dispose();
-                    return new ErrorDataResult<User>("Bu mail ile kayıtlı kullanıcı bulunamadı");
-                }
 
-                var user = new User()
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
+            {
+                _connection.Open();
+
+                using (var cmd = _connection.CreateCommand())
                 {
-                    Id = int.Parse(dataReader["Id"].ToString()),
-                    Email = dataReader["Email"].ToString(),
-                    FullName = dataReader["FullName"].ToString(),
-                    Roles = dataReader["Roles"].ToString(),
-                    PasswordHash = (byte[])dataReader["PasswordHash"],
-                    PasswordSalt = (byte[])dataReader["PasswordSalt"]
-                };
-                _connection.Dispose();
-                return new SuccessDataResult<User>(user);
+                    SpGetUserByEmail(email, cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    if (!dataReader.Read())
+                    {
+                        return new ErrorDataResult<User>("Bu mail ile kayıtlı kullanıcı bulunamadı");
+                    }
+
+                    var user = new User()
+                    {
+                        Id = int.Parse(dataReader["Id"].ToString()),
+                        Email = dataReader["Email"].ToString(),
+                        FullName = dataReader["FullName"].ToString(),
+                        Roles = dataReader["Roles"].ToString(),
+                        PasswordHash = (byte[])dataReader["PasswordHash"],
+                        PasswordSalt = (byte[])dataReader["PasswordSalt"]
+                    };
+                    return new SuccessDataResult<User>(user);
+                }
             }
         }
     }

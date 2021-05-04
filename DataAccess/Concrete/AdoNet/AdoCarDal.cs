@@ -10,12 +10,11 @@ namespace DataAccess.Concrete.AdoNet
     public class AdoCarDal : ICarDal
     {
         private IDatabaseContext _databaseContext;
-        private SqlConnection _connection;
+
 
         public AdoCarDal(IDatabaseContext databaseContext)
         {
             _databaseContext = databaseContext;
-            _connection = _databaseContext.Connection;
         }
         protected void SpInsertCarParameters(Car car, SqlCommand cmd)
         {
@@ -46,16 +45,50 @@ namespace DataAccess.Concrete.AdoNet
 
         public IDataResult<IList<Car>> GetAll()
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
             {
-                SpGetAllCarsParameters(cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-
-                IList<Car> Cars = new List<Car>();
-
-                while (dataReader.Read())
+                using (var cmd = _connection.CreateCommand())
                 {
-                    Cars.Add(new Car
+                    _connection.Open();
+
+                    SpGetAllCarsParameters(cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    IList<Car> Cars = new List<Car>();
+
+                    while (dataReader.Read())
+                    {
+                        Cars.Add(new Car
+                        {
+                            Brand = dataReader["Brand"].ToString(),
+                            CarPlate = dataReader["CarPlate"].ToString(),
+                            Color = dataReader["Color"].ToString(),
+                            Currency = byte.Parse(dataReader["Currency"].ToString()),
+                            DailyRentCost = decimal.Parse(dataReader["Currency"].ToString()),
+                            Model = dataReader["Model"].ToString(),
+                            Id = int.Parse(dataReader["Id"].ToString()),
+                            ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
+                            Type = byte.Parse(dataReader["Type"].ToString()),
+                            VIN = dataReader["VIN"].ToString()
+                        });
+                    }
+                    return new SuccessDataResult<IList<Car>>(Cars);
+                }
+
+            }
+        }
+        public IDataResult<Car> Add(Car car)
+        {
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
+            {
+                using (var cmd = _connection.CreateCommand())
+                {
+                    _connection.Open();
+
+                    SpInsertCarParameters(car, cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    dataReader.Read();
+                    var addedCar = new Car
                     {
                         Brand = dataReader["Brand"].ToString(),
                         CarPlate = dataReader["CarPlate"].ToString(),
@@ -66,62 +99,44 @@ namespace DataAccess.Concrete.AdoNet
                         Id = int.Parse(dataReader["Id"].ToString()),
                         ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
                         Type = byte.Parse(dataReader["Type"].ToString()),
-                        VIN = dataReader["VIN"].ToString()
-                    });
+                        VIN = dataReader["VIN"].ToString(),
+
+                    };
+
+                    _connection.Dispose();
+
+                    return new SuccessDataResult<Car>(addedCar);
                 }
-                return new SuccessDataResult<IList<Car>>(Cars);
-            }
-        }
-        public IDataResult<Car> Add(Car car)
-        {
-            using (var cmd = _connection.CreateCommand())
-            {
-                SpInsertCarParameters(car, cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                var addedCar = new Car
-                {
-                    Brand = dataReader["Brand"].ToString(),
-                    CarPlate = dataReader["CarPlate"].ToString(),
-                    Color = dataReader["Color"].ToString(),
-                    Currency = byte.Parse(dataReader["Currency"].ToString()),
-                    DailyRentCost = decimal.Parse(dataReader["Currency"].ToString()),
-                    Model = dataReader["Model"].ToString(),
-                    Id = int.Parse(dataReader["Id"].ToString()),
-                    ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
-                    Type = byte.Parse(dataReader["Type"].ToString()),
-                    VIN = dataReader["VIN"].ToString(),
-
-                };
-
-                _connection.Dispose();
-
-                return new SuccessDataResult<Car>(addedCar);
             }
         }
 
         public IDataResult<Car> GetById(int id)
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
             {
-                SpGetCarByIdParameters(id, cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                var car = new Car
+                _connection.Open();
+
+                using (var cmd = _connection.CreateCommand())
                 {
-                    Brand = dataReader["Brand"].ToString(),
-                    CarPlate = dataReader["CarPlate"].ToString(),
-                    Color = dataReader["Color"].ToString(),
-                    Currency = byte.Parse(dataReader["Currency"].ToString()),
-                    DailyRentCost = decimal.Parse(dataReader["DailyRentCost"].ToString()),
-                    Model = dataReader["Model"].ToString(),
-                    Id = int.Parse(dataReader["Id"].ToString()),
-                    ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
-                    Type = byte.Parse(dataReader["Type"].ToString()),
-                    VIN = dataReader["VIN"].ToString()
-                };
-                _connection.Dispose();
-                return new SuccessDataResult<Car>(car);
+
+                    SpGetCarByIdParameters(id, cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    dataReader.Read();
+                    var car = new Car
+                    {
+                        Brand = dataReader["Brand"].ToString(),
+                        CarPlate = dataReader["CarPlate"].ToString(),
+                        Color = dataReader["Color"].ToString(),
+                        Currency = byte.Parse(dataReader["Currency"].ToString()),
+                        DailyRentCost = decimal.Parse(dataReader["DailyRentCost"].ToString()),
+                        Model = dataReader["Model"].ToString(),
+                        Id = int.Parse(dataReader["Id"].ToString()),
+                        ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
+                        Type = byte.Parse(dataReader["Type"].ToString()),
+                        VIN = dataReader["VIN"].ToString()
+                    };
+                    return new SuccessDataResult<Car>(car);
+                }
             }
         }
     }

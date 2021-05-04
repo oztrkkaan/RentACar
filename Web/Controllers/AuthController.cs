@@ -50,7 +50,7 @@ namespace Web.Controllers
 
             _authService.Login(new LoginUserDto() { Email = model.RegisterUserDto.Email, Password = model.RegisterUserDto.Password }, HttpContext);
 
-            return View(model);
+            return RedirectToAction("Index","Panel");
         }
     }
 }

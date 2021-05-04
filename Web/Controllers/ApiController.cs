@@ -28,5 +28,10 @@ namespace Web.Controllers
         {
             return Json(_bookingService.Create(bookingDto));
         }
+        [Route("get-booking-list-by-carId/{carId:int}")]
+        public JsonResult GetBookingListByCarId(int carId)
+        {
+            return Json(_bookingService.GetListByCarId(carId), JsonRequestBehavior.AllowGet);
+        }
     }
 }

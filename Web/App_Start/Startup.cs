@@ -17,7 +17,7 @@ namespace Web.App_Start
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = "ApplicationCookie",
-                LoginPath = new PathString("/kimlik/girisyap"),
+                LoginPath = new PathString("/kimlik/giris-yap"),
                 ExpireTimeSpan = TimeSpan.FromDays(30),
             });
         }

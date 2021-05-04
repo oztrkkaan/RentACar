@@ -3,8 +3,8 @@ using BusinessLogic.ValidationRules.FluentValidation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entity.Concrete;
 using Entity.Dtos;
+using System.Collections.Generic;
 
 namespace BusinessLogic.Concrete
 {
@@ -17,7 +17,7 @@ namespace BusinessLogic.Concrete
             _bookingDal = bookingDal;
         }
 
-        public IDataResult<Entity.Concrete.BookingDto> Create(Entity.Dtos.BookingDto bookingDto)
+        public IDataResult<BookingDto> Create(Entity.Dtos.BookingDto bookingDto)
         {
             var validator = new BookingValidator();
             var validateResult = validator.Validate(bookingDto);
@@ -25,9 +25,14 @@ namespace BusinessLogic.Concrete
             if (!validateResult.IsValid)
             {
                 var validationErrors = ValidationHelper.GetErrors(validateResult.Errors);
-                return new ErrorDataResult<Entity.Concrete.BookingDto>("Rezervasyon ekleme işlemi başarısız oldu.", validationErrors);
+                return new ErrorDataResult<BookingDto>("Rezervasyon ekleme işlemi başarısız oldu.", validationErrors);
             }
             return _bookingDal.Add(bookingDto);
+        }
+
+        public IDataResult<IList<BookingDto>> GetListByCarId(int carId)
+        {
+            return _bookingDal.GetListByCarId(carId);
         }
     }
 }

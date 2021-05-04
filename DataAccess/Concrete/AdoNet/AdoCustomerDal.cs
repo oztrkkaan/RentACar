@@ -12,12 +12,12 @@ namespace DataAccess.Concrete.AdoNet
     public class AdoCustomerDal : ICustomerDal
     {
         private IDatabaseContext _databaseContext;
-        private SqlConnection _connection;
+
 
         public AdoCustomerDal(IDatabaseContext databaseContext)
         {
             _databaseContext = databaseContext;
-            _connection = _databaseContext.Connection;
+
         }
         protected void SpGetAllCustomersParameters(SqlCommand cmd)
         {
@@ -41,46 +41,53 @@ namespace DataAccess.Concrete.AdoNet
         }
         public IDataResult<Customer> AddWithAddressAndPhone(CreateCustomerDto createCustomerDto)
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
             {
-                SpInsertCustomerParameters(createCustomerDto, cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-
-                var customer = new Customer
+                _connection.Open();
+                using (var cmd = _connection.CreateCommand())
                 {
-                    BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString()),
-                    CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString()),
-                    FullName = dataReader["FullName"].ToString(),
-                    Gender = short.Parse(dataReader["Gender"].ToString()),
-                    Id = int.Parse(dataReader["Id"].ToString())
-                };
+                    SpInsertCustomerParameters(createCustomerDto, cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    dataReader.Read();
 
-                _connection.Dispose();
-                return new SuccessDataResult<Customer>(customer);
-            }
-        }
-
-        public IDataResult<IList<Customer>> GetAll()
-        {
-            using (var cmd = _connection.CreateCommand())
-            {
-                SpGetAllCustomersParameters(cmd);
-                SqlDataReader dataReader = cmd.ExecuteReader();
-                IList<Customer> customers = new List<Customer>();
-                while (dataReader.Read())
-                {
-                    customers.Add(new Customer
+                    var customer = new Customer
                     {
                         BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString()),
                         CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString()),
                         FullName = dataReader["FullName"].ToString(),
                         Gender = short.Parse(dataReader["Gender"].ToString()),
                         Id = int.Parse(dataReader["Id"].ToString())
-                    });
+                    };
+                    return new SuccessDataResult<Customer>(customer);
                 }
-                _connection.Dispose();
-                return new SuccessDataResult<IList<Customer>>(customers);
+            }
+        }
+
+        public IDataResult<IList<Customer>> GetAll()
+        {
+            using (var _connection = new SqlConnection(_databaseContext.ConnectionString))
+            {
+                _connection.Open();
+
+                using (var cmd = _connection.CreateCommand())
+                {
+
+                    SpGetAllCustomersParameters(cmd);
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    IList<Customer> customers = new List<Customer>();
+                    while (dataReader.Read())
+                    {
+                        customers.Add(new Customer
+                        {
+                            BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString()),
+                            CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString()),
+                            FullName = dataReader["FullName"].ToString(),
+                            Gender = short.Parse(dataReader["Gender"].ToString()),
+                            Id = int.Parse(dataReader["Id"].ToString())
+                        });
+                    }
+                    return new SuccessDataResult<IList<Customer>>(customers);
+                }
             }
         }
     }
