@@ -1,10 +1,6 @@
 ﻿using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.AdoNet.Contexts;
 using Entity.Concrete;
-using Entity.Dtos;
-using Entity.Dtos.Web.Auth;
-using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -43,7 +39,7 @@ namespace DataAccess.Concrete.AdoNet
             {
                 SpInsertUserParameters(user, cmd);
                 SqlDataReader dataReader = cmd.ExecuteReader();
-          
+
                 var addedUser = new User()
                 {
                     Id = int.Parse(dataReader["Id"].ToString()),
@@ -51,7 +47,7 @@ namespace DataAccess.Concrete.AdoNet
                     FullName = dataReader["FullName"].ToString(),
                     Roles = dataReader["Roles"].ToString()
                 };
-               
+
                 _connection.Dispose();
 
                 return new SuccessDataResult<User>(addedUser);

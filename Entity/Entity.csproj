@@ -51,6 +51,7 @@
     <Compile Include="Constants\CurrencyEnum.cs" />
     <Compile Include="Constants\CustomerEnum.cs" />
     <Compile Include="Constants\ListItem.cs" />
+    <Compile Include="Dtos\BookingDto.cs" />
     <Compile Include="Dtos\CarDto.cs" />
     <Compile Include="Dtos\CustomerAddressDto.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />

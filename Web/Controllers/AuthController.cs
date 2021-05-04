@@ -1,10 +1,6 @@
 ﻿using BusinessLogic.Abstract;
 using Entity.Dtos.Web.Auth;
 using Entity.ViewModels.Web.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Web.Helper.FluentValidation;
 
@@ -34,7 +30,7 @@ namespace Web.Controllers
                 ModelState.AddModelError("LoginMessage", loginResult.Message);
                 return View(model);
             }
-            return RedirectToAction("Index","Panel");
+            return RedirectToAction("Index", "Panel");
         }
         [Route("kayit-ol")]
         public ActionResult Register()

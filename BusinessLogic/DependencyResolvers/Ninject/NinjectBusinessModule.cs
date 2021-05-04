@@ -4,12 +4,6 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.AdoNet;
 using DataAccess.Concrete.AdoNet.Contexts;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.DependencyResolvers.Ninject
 {
@@ -20,7 +14,9 @@ namespace BusinessLogic.DependencyResolvers.Ninject
             Bind<IUserDal>().To<AdoUserDal>().InTransientScope();
             Bind<ICarDal>().To<AdoCarDal>().InTransientScope();
             Bind<ICustomerDal>().To<AdoCustomerDal>().InTransientScope();
+            Bind<IBookingDal>().To<AdoBookingDal>().InTransientScope();
 
+            Bind<IBookingService>().To<BookingManager>().InTransientScope();
             Bind<ICustomerService>().To<CustomerManager>().InTransientScope();
             Bind<IUserService>().To<UserManager>().InTransientScope();
             Bind<IAuthService>().To<AuthManager>().InTransientScope();

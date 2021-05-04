@@ -6,9 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.AdoNet
 {
@@ -17,13 +14,16 @@ namespace DataAccess.Concrete.AdoNet
         private IDatabaseContext _databaseContext;
         private SqlConnection _connection;
 
-        public AdoCustomerDal( IDatabaseContext databaseContext)
+        public AdoCustomerDal(IDatabaseContext databaseContext)
         {
             _databaseContext = databaseContext;
-
             _connection = _databaseContext.Connection;
         }
-
+        protected void SpGetAllCustomersParameters(SqlCommand cmd)
+        {
+            cmd.CommandText = "spGetAllCustomers";
+            cmd.CommandType = CommandType.StoredProcedure;
+        }
         protected void SpInsertCustomerParameters(CreateCustomerDto createCustomerDto, SqlCommand cmd)
         {
             cmd.CommandText = "spInsertCustomer";
@@ -47,18 +47,40 @@ namespace DataAccess.Concrete.AdoNet
                 SqlDataReader dataReader = cmd.ExecuteReader();
                 dataReader.Read();
 
-                var customer = new Customer();
-
-
-                   customer.BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString());
-                   customer.CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString());
-                   customer.FullName = dataReader["FullName"].ToString();
-                   customer.Gender = short.Parse(dataReader["Gender"].ToString());
-                   customer.Id = int.Parse(dataReader["Id"].ToString());
-                
+                var customer = new Customer
+                {
+                    BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString()),
+                    CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString()),
+                    FullName = dataReader["FullName"].ToString(),
+                    Gender = short.Parse(dataReader["Gender"].ToString()),
+                    Id = int.Parse(dataReader["Id"].ToString())
+                };
 
                 _connection.Dispose();
                 return new SuccessDataResult<Customer>(customer);
+            }
+        }
+
+        public IDataResult<IList<Customer>> GetAll()
+        {
+            using (var cmd = _connection.CreateCommand())
+            {
+                SpGetAllCustomersParameters(cmd);
+                SqlDataReader dataReader = cmd.ExecuteReader();
+                IList<Customer> customers = new List<Customer>();
+                while (dataReader.Read())
+                {
+                    customers.Add(new Customer
+                    {
+                        BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString()),
+                        CitizenshipNumber = long.Parse(dataReader["CitizenshipNumber"].ToString()),
+                        FullName = dataReader["FullName"].ToString(),
+                        Gender = short.Parse(dataReader["Gender"].ToString()),
+                        Id = int.Parse(dataReader["Id"].ToString())
+                    });
+                }
+                _connection.Dispose();
+                return new SuccessDataResult<IList<Customer>>(customers);
             }
         }
     }

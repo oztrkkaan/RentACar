@@ -1,15 +1,10 @@
 ﻿using BusinessLogic.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Extensions.ClaimExtensions
 {
-   public static class ClaimExtensions
+    public static class ClaimExtensions
     {
         public static int UserId(this IIdentity identity)
         {

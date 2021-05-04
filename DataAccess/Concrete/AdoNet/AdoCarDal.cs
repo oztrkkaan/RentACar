@@ -1,13 +1,9 @@
 ﻿using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entity.Concrete;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.AdoNet
 {
@@ -94,7 +90,8 @@ namespace DataAccess.Concrete.AdoNet
                     Id = int.Parse(dataReader["Id"].ToString()),
                     ModelYear = short.Parse(dataReader["ModelYear"].ToString()),
                     Type = byte.Parse(dataReader["Type"].ToString()),
-                    VIN = dataReader["VIN"].ToString()
+                    VIN = dataReader["VIN"].ToString(),
+
                 };
 
                 _connection.Dispose();
@@ -116,7 +113,7 @@ namespace DataAccess.Concrete.AdoNet
                     CarPlate = dataReader["CarPlate"].ToString(),
                     Color = dataReader["Color"].ToString(),
                     Currency = byte.Parse(dataReader["Currency"].ToString()),
-                    DailyRentCost = decimal.Parse(dataReader["Currency"].ToString()),
+                    DailyRentCost = decimal.Parse(dataReader["DailyRentCost"].ToString()),
                     Model = dataReader["Model"].ToString(),
                     Id = int.Parse(dataReader["Id"].ToString()),
                     ModelYear = short.Parse(dataReader["ModelYear"].ToString()),

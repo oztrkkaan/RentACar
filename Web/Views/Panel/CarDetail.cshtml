@@ -48,7 +48,7 @@
 
                                 <div class="col-md-3">
                                     <label class="fw-bold form-label">Günlük Kiralama Bedeli:</label>
-                                    @Model.CarDto.DailyRentCost @CurrencyEnum.GetCurrencyByType(Model.CarDto.Currency).Text
+                                  <span id="dailyRentCost">@Model.CarDto.DailyRentCost</span> <span id="currency">@CurrencyEnum.GetCurrencyByType(Model.CarDto.Currency).Text</span>
                                 </div>
 
                                 <div class="col-md-3">
@@ -63,7 +63,43 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
 
+            <input type="hidden" id="carId" value="@Model.CarDto.Id" />
+            <div class="card">
+                <div class="card-body">
+                    <h3>Rezervasyon Ekle</h3>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Rezervasyon Başlangıç Tarihi</label>
+                            <input type="date" class="form-control" id="bookingStartDate" />
+
+                        </div>
+                        <div class="col-md-6">
+                            <label>Rezervasyon Bitiş Tarihi</label>
+                            <input type="date" class="form-control" id="bookingEndDate" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Rezervasyon Yapan Müşteri</label>
+                            <select class="btn btn-light border col-12 dropdown-toggle" id="customerDDL">
+                                <option value="">--Müşteri Seçin--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Toplam Tutar</label>
+                            <div class="h4  text-success" id="totalCost">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary col-12" id="btnSaveBooking">Rezervasyonu Kaydet</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -71,39 +107,140 @@
 
                     <h3>Rezervasyon Geçmişi</h3>
                     <hr />
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="bookingTable">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Başlangıç Tarihi</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Toplam Tutar</th>
+                                <th scope="col">Müşteri Adı</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@@twitter</td>
-                            </tr>
+                           
                         </tbody>
                     </table>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.all.min.js"></script>
+    <script>
+        var GetAllCustomers = function () {
+            return $.ajax({
+                url: "/api/get-all-customers",
+                contentType: "application/json",
+                dataType: "json",
+                type: "GET"
+
+            });
+        };
+        var SaveBooking = function (bookingModel) {
+            return $.ajax({
+                url: "/api/save-booking",
+                contentType: "application/json",
+                dataType: "json",
+                type: "post",
+                data: JSON.stringify(bookingModel)
+            });
+        }
+        GetAllCustomers().done(function (result) {
+            var customerDDL = $("#customerDDL");
+            $.each(result.Data, function (i, customer) {
+                customerDDL.append($("<option/>").val(customer.Id).text(customer.FullName))
+            })
+        });
+
+        $('#bookingStartDate, #bookingEndDate').on('change', function () {
+
+            var bookingStartDate = $("#bookingStartDate").val();
+            var bookingEndDate = $("#bookingEndDate").val();
+            var currency = $('#currency').text();
+
+            if (bookingStartDate != "" && bookingEndDate != "" ) {
+
+              
+                var dailyRentCost = parseInt(($("#dailyRentCost").text()));
+                var totalCost = $("#totalCost");
+
+                var dayDiff = moment(bookingEndDate).diff(bookingStartDate, 'days');
+                console.log(totalCost);
+
+                totalCost.html((dayDiff * dailyRentCost) + " "+currency);
+            }
+        });
+
+
+        $("#btnSaveBooking").on("click", function () {
+            var bookingStartDate = $("#bookingStartDate").val();
+            var bookingEndDate = $("#bookingEndDate").val();
+            var customerId = $("#customerDDL").val();
+            var carId = $("#carId").val();
+
+            var bookingModel = {
+                CustomerId: customerId,
+                CarId: carId,
+                BookingDate: moment(bookingStartDate).format("DD.MM.yyyy"),
+                BookingEndDate: moment(bookingEndDate).format("DD.MM.yyyy")
+            }
+            console.log(bookingModel)
+            Swal.fire({
+                title: 'Rezervasyonu Kaydetmek istediğine emin misin?',
+                text: "Araç belirtilen tarih aralığında uygunsa kayıt tamamlanacak.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: "İptal",
+                confirmButtonText: 'Kaydet!'
+            }).then((swalResult) => {
+                if (swalResult.isConfirmed) {
+                    SaveBooking(bookingModel).done(function (result) {
+                        console.log(result)
+                        if (result.Success) {
+
+                            result.Data
+
+                            $("#bookingTable tbody").append(
+                                "<tr>" +
+                                "<td>" + moment(result.Data.BookingDate).format("DD.MM.yyyy") + "</td>" +
+                                "<td>" + moment(result.Data.BookingEndDate).format("DD.MM.yyyy") + "</td>" +
+                                "<td>" + result.Data.Amount + "</td>" +
+                                "<td>" + result.Data.CustomerName + "</td>" +
+                                "</tr>"
+
+                            )
+
+
+                            Swal.fire(
+                                'Başarılı!',
+                                'Rezervasyon başarıyla kaydedildi.',
+                                'success'
+                            )
+                        } else {
+                            var validationMessages = result.ValidationErrors;
+                            var errorStr="";
+                            $.each(validationMessages, function (i, item) {
+                                errorStr += item.ErrorMessage+", "
+                            });
+                            Swal.fire(
+                                result.Message,
+                                errorStr,
+                                'error'
+                            )
+                        }
+                 });
+                }
+            })
+        });
+    </script>
+
+
+
+}
 

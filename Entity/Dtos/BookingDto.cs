@@ -1,9 +1,9 @@
 ﻿using Core.Entities;
 using System;
 
-namespace Entity.Concrete
+namespace Entity.Dtos
 {
-    public class BookingDto : IEntity
+    public class BookingDto : IDto
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }

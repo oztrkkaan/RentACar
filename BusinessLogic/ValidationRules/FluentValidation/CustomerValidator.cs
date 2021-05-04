@@ -1,14 +1,9 @@
 ﻿using Entity.Dtos.Web.Panel;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.ValidationRules.FluentValidation
 {
-   public class CustomerValidator : AbstractValidator<CreateCustomerDto>
+    public class CustomerValidator : AbstractValidator<CreateCustomerDto>
     {
         public CustomerValidator()
         {

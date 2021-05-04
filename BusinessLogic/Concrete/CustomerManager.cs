@@ -5,12 +5,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using Entity.Dtos.Web.Panel;
-using FluentValidation.Validators;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Concrete
 {
@@ -25,8 +20,8 @@ namespace BusinessLogic.Concrete
         {
             var validator = new CustomerValidator();
             var validatorResult = validator.Validate(createCustomerDto);
-            
-            if(!validatorResult.IsValid)
+
+            if (!validatorResult.IsValid)
             {
                 var validationErrors = ValidationHelper.GetErrors(validatorResult.Errors);
                 return new ErrorDataResult<Customer>("Müşteri ekleme işlemi başarısız oldu.", validationErrors);
@@ -34,6 +29,11 @@ namespace BusinessLogic.Concrete
             var addedResult = _customerDal.AddWithAddressAndPhone(createCustomerDto);
 
             return addedResult;
+        }
+
+        public IDataResult<IList<Customer>> GetAll()
+        {
+            return _customerDal.GetAll();
         }
     }
 }

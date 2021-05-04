@@ -3,10 +3,7 @@ using BusinessLogic.Utilities.AutoMapper;
 using Entity.Dtos;
 using Entity.Dtos.Web.Panel;
 using Entity.ViewModels.Web.Panel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Web.Helper.FluentValidation;
 
@@ -73,7 +70,7 @@ namespace Web.Controllers
         public ActionResult AddCustomer(AddCustomerViewModel model)
         {
             var addResult = _customerService.Create(model.CreateCustomerDto);
-            if(!addResult.Success)
+            if (!addResult.Success)
             {
                 ModelState.ValidateModel(addResult.ValidationErrors, typeof(CreateCustomerDto));
                 return View(model);

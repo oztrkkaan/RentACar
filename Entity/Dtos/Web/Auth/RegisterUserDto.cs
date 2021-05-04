@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entity.Dtos.Web.Auth
+﻿namespace Entity.Dtos.Web.Auth
 {
-   public class RegisterUserDto
+    public class RegisterUserDto
     {
         public string FullName { get; set; }
         public string Email { get; set; }
